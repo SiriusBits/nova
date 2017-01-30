@@ -1,0 +1,21 @@
+
+# Ignore [packages]
+node_modules
+
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Project files
+
+# Office Temp Files
+~$*
+
+# Sass files
+.sass-cache
+.tmp
+
+#Public
+proto/public
+
+#Local Ignores

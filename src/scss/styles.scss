@@ -1,0 +1,42 @@
+// Import Bootstrap Compass integration
+//@import 'bootstrap-compass';
+// Import custom Bootstrap variables
+@import 'bootstrap-variables';
+// Import Bootstrap for Sass
+@import 'bootstrap';
+
+// Hyland custom Styles
+
+
+// Custom Fonts
+@font-face {
+  font-family: 'Calibri';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Calibri.eot'),
+  url('../fonts/Calibri.woff') format('woff'),
+  url('../fonts/Calibri.ttf') format('truetype'),
+  url('../fonts/Calibri.svg#titillium_webregular') format('svg');
+}
+
+.push {
+  margin-top: 70px;
+}
+
+
+// Mobile first queries 
+
+// Larger than mobile
+//@media (min-width: 400px) {}
+
+// Larger than phablet
+//@media (min-width: 550px) {}
+
+// Larger than tablet
+//@media (min-width: 750px) {}
+
+// Larger than desktop
+//@media (min-width: 1000px) {}
+
+// Larger than Desktop HD
+//@media (min-width: 1200px) {}
