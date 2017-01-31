@@ -1,18 +1,19 @@
 {
   "name": "proto",
   "version": "1.0.0",
-  "description": "OnBase.com prototype project",
+  "description": "A front end website prototype project using Gulp and WebPack",
   "main": "gulpfile.js",
   "scripts": {
     "test": "gulp"
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:Sirius_B/onbase.git"
+    "url": "git@bitbucket.org:Sirius_B/nova.git"
   },
   "keywords": [
-    "OnBase",
-    "Hyland",
+    "Nova",
+    "Gulp",
+    "WebPack",
     "Front End"
   ],
   "author": "Benjamin Bykowski",
