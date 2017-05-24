@@ -16,6 +16,6 @@ node_modules
 .tmp
 
 #Public
-proto/public
+nova/public
 
 #Local Ignores
