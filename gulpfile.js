@@ -10,6 +10,7 @@ const gutil         = require( 'gulp-util' );
 const image         = require('gulp-image');
 const mqpacker      = require( 'css-mqpacker' );
 const neat          = require( 'bourbon-neat' ).includePaths;
+const nodemon       = require('gulp-nodemon');
 const notify        = require( 'gulp-notify' );
 const path          = require("path");
 const plumber       = require( 'gulp-plumber' );
@@ -121,7 +122,7 @@ gulp.task('build-fonts', [ 'clean:fonts' ], function () {
 });
 
 /**
- * Optimize images for Web use. 
+ * Optimize images for Web use.
  *
  * https://www.npmjs.com/package/gulp-image
  */
@@ -293,12 +294,12 @@ gulp.task( 'js:lint', function () {
  *
  * https://www.npmjs.com/package/browser-sync
  */
-gulp.task( 'watch', function () {
+gulp.task( 'watch', ['server'], function () {
   // Kick off BrowserSync.
   browserSync( {
     'open': false,             // Open project in a new tab?
     'injectChanges': true,     // Auto inject changes instead of full reload
-    'proxy': sitename + '.dev',    // Use http://_s.com:3000 to use BrowserSync
+    'proxy': 'localhost:3030',    // Use http://_s.com:3000 to use BrowserSync
     'watchOptions': {
       'debounceDelay': 1000  // Wait 1 second before injecting
     }
@@ -312,9 +313,34 @@ gulp.task( 'watch', function () {
   gulp.watch( inputPaths.markup, [ 'markup' ] );
 } );
 
+gulp.task('start-server', function (cb) {
+  var called = false;
+  return nodemon({
+    script: 'server.js',
+    ignore: [
+      'gulpfile.js',
+      'webpack.config.js',
+      'src/',
+      'node_modules/'
+    ]
+  })
+  .on('start', function () {
+    if (!called) {
+      called = true;
+      cb();
+    }
+  })
+  .on('restart', function () {
+    setTimeout(function () {
+      reload({ stream: false });
+    }, 1000);
+  });
+});
+
 /**
  * Create individual tasks.
  */
+gulp.task( 'server', [ 'start-server' ] );
 gulp.task( 'markup', [ 'build-html' ], browserSync.reload );
 gulp.task( 'scripts', [ 'build-js' ] );
 gulp.task( 'styles', [ 'build-css' ] );
