@@ -301,7 +301,7 @@ gulp.task( 'watch', ['server'], function () {
     'injectChanges': true,     // Auto inject changes instead of full reload
     'proxy': 'localhost:3030',    // Use http://_s.com:3000 to use BrowserSync
     'watchOptions': {
-      'debounceDelay': 1000  // Wait 1 second before injecting
+      'debounceDelay': 1500  // Wait 1 second before injecting
     }
   } );
 
@@ -316,11 +316,12 @@ gulp.task( 'watch', ['server'], function () {
 gulp.task('start-server', function (cb) {
   var called = false;
   return nodemon({
-    script: 'server.js',
+    script: 'bin/www',
     ignore: [
       'gulpfile.js',
       'webpack.config.js',
       'src/',
+      'dist/',
       'node_modules/'
     ]
   })
@@ -341,7 +342,7 @@ gulp.task('start-server', function (cb) {
  * Create individual tasks.
  */
 gulp.task( 'server', [ 'start-server' ] );
-gulp.task( 'markup', [ 'build-html' ], browserSync.reload );
+gulp.task( 'markup', [ 'build-html' ], browserSync.stream );
 gulp.task( 'scripts', [ 'build-js' ] );
 gulp.task( 'styles', [ 'build-css' ] );
 gulp.task( 'fonts', [ 'build-fonts' ] );

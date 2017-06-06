@@ -1,38 +1,35 @@
 var express = require('express');
 var path = require('path');
+var logger = require('morgan');
+var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
+var hbs = require('express-handlebars');
+var routes = require('./public/routes/index');
 var app = express();
 
-// must specify options hash even if no options provided!
-var phpExpress = require('php-express')({
-  // assumes php is in your PATH
-  binPath: 'php'
-});
+/// view engine setup
+app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/public/layouts/', partialsDir: __dirname + '/public/views/', }));
+app.set('views', path.join(__dirname, 'public/views'));
+app.set('view engine', 'hbs');
 
-process.env.DOCUMENT_ROOT = __dirname;
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/public'));
 
-// set view engine to php-express
-app.set('views', './public');
-app.engine('php', phpExpress.engine);
-app.set('view engine', 'php');
-
-// routing all .php file to php-express
-app.all(/.+\.php$/, phpExpress.router);
-
-// routing home page to php-express
-app.all(/^\/$/, phpExpress.router);
-
-// routing all folders with trailing slash file to php-express
-app.all(/^\/(.+)\/$/, phpExpress.router);
-
-// routing all folders WITHOUT trailing slash file to php-express
-app.all(/^\/(.+)[\.]$/, phpExpress.router);
+// Set Router
+app.use('/', routes);
 
 // serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
-var server = app.listen(3030, 'localhost', function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('PHPExpress app listening at http://%s:%s', host, port);
-  console.log(process.env.DOCUMENT_ROOT);
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
+
+module.exports = app;
