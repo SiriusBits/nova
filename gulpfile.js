@@ -364,7 +364,7 @@ gulp.task('publish-static', ['publish-assets'], function () {
 });
 
 // publish assets
-gulp.task('publish-assets', function () {
+gulp.task('publish-assets', [ 'build:all' ], function () {
   gulp.src(inputPaths.assets)
     .pipe(gulp.dest(outputPaths.assets));
 });
