@@ -3,29 +3,31 @@ const autoprefixer  = require( 'autoprefixer' );
 const bourbon       = require( 'bourbon' ).includePaths;
 const browserSync   = require( 'browser-sync' );
 const cssnano       = require( 'gulp-cssnano' );
+const compile       = require( 'gulp-compile-handlebars' );
 const del           = require( 'del' );
 const eslint        = require( 'gulp-eslint' );
 const gulp          = require( 'gulp' );
 const gutil         = require( 'gulp-util' );
-const image         = require('gulp-image');
+const image         = require( 'gulp-image');
 const mqpacker      = require( 'css-mqpacker' );
 const neat          = require( 'bourbon-neat' ).includePaths;
-const nodemon       = require('gulp-nodemon');
+const nodemon       = require( 'gulp-nodemon' );
 const notify        = require( 'gulp-notify' );
-const path          = require("path");
+const path          = require( 'path' );
 const plumber       = require( 'gulp-plumber' );
 const postcss       = require( 'gulp-postcss' );
 const reload        = browserSync.reload;
 const rename        = require( 'gulp-rename' );
 const sass          = require( 'gulp-sass' );
-const sassdoc       = require('sassdoc');
+const sassdoc       = require( 'sassdoc');
 const sassLint      = require( 'gulp-sass-lint' );
-const source        = require('vinyl-source-stream');
+const source        = require( 'vinyl-source-stream' );
 const sourcemaps    = require( 'gulp-sourcemaps' );
 const sort          = require( 'gulp-sort' );
+const stream        = browserSync.stream;
 const uglify        = require( 'gulp-uglify' );
-const webpack       = require("webpack");
-const webpackConfig = require("./webpack.config.js");
+const webpack       = require( 'webpack' );
+const webpackConfig = require( './webpack.config.js' );
 
 
 // Set assets paths.
@@ -35,16 +37,20 @@ const inputPaths = {
   'fonts'   : './src/fonts/**',
   'images'  : './src/images/**',
   'markup'  : './src/html/**',
+  'views'   : './src/html/views/*.hbs',
   'sass'    : './src/scss/**/*.scss',
-  'scripts' : './src/javascript/app.js'
+  'scripts' : './src/javascript/app.js',
+  'assets'  : './public/assets'
 };
 
 const outputPaths = {
   'fonts'   : './public/assets/' + sitename + '/fonts',
   'images'  : './public/assets/' + sitename + '/images',
   'markup'  : './public',
-  'css'    : './public/assets/' + sitename + '/stylesheets',
-  'scripts' : './public/assets/' + sitename + '/javascript'
+  'css'     : './public/assets/' + sitename + '/stylesheets',
+  'scripts' : './public/assets/' + sitename + '/javascript',
+  'dist'    : './dist',
+  'assets'  : './dist/assets'
 };
 
 const  sassdocOptions = {
@@ -313,6 +319,13 @@ gulp.task( 'watch', ['server'], function () {
   gulp.watch( inputPaths.markup, [ 'markup' ] );
 } );
 
+/**
+ * Starts up an express server with nodemon.
+ *
+ * https://www.npmjs.com/package/express
+ * https://www.npmjs.com/package/gulp-nodemon
+ * 
+ */
 gulp.task('start-server', function (cb) {
   var called = false;
   return nodemon({
@@ -338,6 +351,24 @@ gulp.task('start-server', function (cb) {
   });
 });
 
+gulp.task('publish-static', ['publish-assets'], function () {
+  return gulp.src('./src/html/pages/*.hbs')
+    .pipe(compile({}, {
+      ignorePartials: true,
+      batch: ['./src/html/partials', './src/html/pages']
+    }))
+    .pipe(rename({
+      extname: '.html'
+    }))
+    .pipe(gulp.dest(outputPaths.dist));
+});
+
+// publish assets
+gulp.task('publish-assets', function () {
+  gulp.src(inputPaths.assets)
+    .pipe(gulp.dest(outputPaths.assets));
+});
+
 /**
  * Create individual tasks.
  */
@@ -349,3 +380,5 @@ gulp.task( 'fonts', [ 'build-fonts' ] );
 gulp.task( 'images', [ 'build-images' ] );
 gulp.task( 'lint', [ 'sass:lint', 'js:lint' ] );
 gulp.task( 'build:all', [ 'fonts', 'styles', 'scripts', 'images', 'markup'] );
+gulp.task( 'ship', [ 'publish-static' ] );
+

@@ -21,7 +21,10 @@
 	{{/includes/header}}
 	<!-- Page Content -->
     <div class="container main">
-    	{{{ body }}}
+    	{{#> body-block}}
+            {{!-- Body content goes here. --}}
+            <p>This is the default body block content.</p>
+        {{/body-block}}
     </div>
     {{#> includes/footer}}
       {{!-- Customize the footer content per page. --}}
