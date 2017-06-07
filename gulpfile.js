@@ -40,7 +40,7 @@ const inputPaths = {
   'views'   : './src/html/views/*.hbs',
   'sass'    : './src/scss/**/*.scss',
   'scripts' : './src/javascript/app.js',
-  'assets'  : './public/assets'
+  'assets'  : './public/assets/**'
 };
 
 const outputPaths = {
@@ -50,7 +50,7 @@ const outputPaths = {
   'css'     : './public/assets/' + sitename + '/stylesheets',
   'scripts' : './public/assets/' + sitename + '/javascript',
   'dist'    : './dist',
-  'assets'  : './dist/assets'
+  'assets'    : './dist/assets'
 };
 
 const  sassdocOptions = {
@@ -352,10 +352,10 @@ gulp.task('start-server', function (cb) {
 });
 
 gulp.task('publish-static', ['publish-assets'], function () {
-  return gulp.src('./src/html/pages/*.hbs')
+  return gulp.src('./src/html/pages/**/*.hbs')
     .pipe(compile({}, {
       ignorePartials: true,
-      batch: ['./src/html/partials', './src/html/pages']
+      batch: ['./src/html/partials']
     }))
     .pipe(rename({
       extname: '.html'

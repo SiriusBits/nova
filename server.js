@@ -10,15 +10,6 @@ var app = express();
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
     defaultLayout: 'index',
-    helpers: {
-    	getElement: function ( elid ){
-		  var content = document.getElementbyId(elid);
-		  if (content)
-		  	return content.outerHtml;
-		  else
-		  	return '';
-		}
-	},
 	extname: '.hbs',
 	layoutsDir: __dirname + '/public/pages',
     partialsDir: [
@@ -42,19 +33,8 @@ app.use(express.static(__dirname + '/public'));
 // Set Router
 app.use('/', routes);
 
-// routing all folders with trailing slash file to views
-//app.all(/^\/(.+)\/$/, routes);
-
-// routing all folders WITHOUT trailing slash file to views
-//app.all(/^\/(.+)[\.]$/, routes);
-
-
-// serve static files
-//app.use(express.static(path.join(__dirname, 'public')));
-
-// catch 404 and forward to error handler
+// catch 404 or forward to error handler
 app.use(function(err, req, res, next) {
-	console.log(typeof err[path]);
   if (typeof err[path] == 'undefined') {
         res.render('404', {title: 'Nova - Page Not Found', 
 	layout: '404'});
