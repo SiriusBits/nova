@@ -16,5 +16,7 @@ node_modules
 .tmp
 
 #Public and Dist
+/public
+/dist
 
 #Local Ignores
