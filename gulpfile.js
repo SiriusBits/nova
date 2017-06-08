@@ -40,17 +40,19 @@ const inputPaths = {
   'views'   : './src/html/views/*.hbs',
   'sass'    : './src/scss/**/*.scss',
   'scripts' : './src/javascript/app.js',
-  'assets'  : './public/assets/**'
 };
 
 const outputPaths = {
-  'fonts'   : './public/assets/' + sitename + '/fonts',
-  'images'  : './public/assets/' + sitename + '/images',
-  'markup'  : './public',
-  'css'     : './public/assets/' + sitename + '/stylesheets',
-  'scripts' : './public/assets/' + sitename + '/javascript',
-  'dist'    : './dist',
-  'assets'    : './dist/assets'
+  'markup'      : './public',
+  'fonts'       : './public/assets/' + sitename + '/fonts',
+  'images'      : './public/assets/' + sitename + '/images',
+  'css'         : './public/assets/' + sitename + '/stylesheets',
+  'scripts'     : './public/assets/' + sitename + '/javascript',
+  'dist'        : './dist',
+  'distfonts'   : './dist/assets/' + sitename + '/fonts',
+  'distimg'     : './dist/assets/' + sitename + '/images',
+  'distcss'     : './dist/assets/' + sitename + '/stylesheets',
+  'distscripts' : './dist/assets/' + sitename + '/javascript',
 };
 
 const  sassdocOptions = {
@@ -61,42 +63,48 @@ const  sassdocOptions = {
  * Delete style.css and style.min.css before we minify and optimize
  */
 gulp.task( 'clean:styles', function () {
-  return del( [ outputPaths.css + '/style.css', outputPaths.css + '/style.min.css' ] );
+  return del( [ outputPaths.css + '/style.css', outputPaths.css + '/style.min.css',
+                outputPaths.distcss + '/style.css', outputPaths.distcss + '/style.min.css' ] );
 } );
 
 /**
  * Delete bundle.js before we minify and optimize
  */
 gulp.task( 'clean:scripts', function () {
-  return del( [ outputPaths.scripts + '/bundle.js' ] );
+  return del( [ outputPaths.scripts + '/bundle.js',
+                outputPaths.distscripts + '/bundle.js'  ] );
 } );
 
 /**
  * Delete all markup files created by the build-html task
  */
 gulp.task( 'clean:markup', function () {
-  return del( [ outputPaths.markup + '/**/*', '!./public/assets', '!./public/assets/**/*' ] );
+  return del( [ outputPaths.markup + '/**/*', '!./public/assets', '!./public/assets/**/*',
+                outputPaths.distmarkup + '/**/*', '!./dist/assets', '!./dist/assets/**/*' ] );
 } );
 
 /**
  * Delete all font files created by the build-fonts task
  */
 gulp.task( 'clean:fonts', function () {
-  return del( [ outputPaths.fonts + '/**/*' ] );
+  return del( [ outputPaths.fonts + '/**/*',
+                outputPaths.distfonts + '/**/*' ] );
 } );
 
 /**
  * Delete all image files created by the build-images task
  */
 gulp.task( 'clean:images', function () {
-  return del( [ outputPaths.images + '/**/*' ] );
+  return del( [ outputPaths.images + '/**/*',
+                outputPaths.distimages + '/**/*' ] );
 } );
 
 /**
  * Delete the public site - full cleanse
  */
 gulp.task( 'clean:all', function () {
-  return del( [ outputPaths.markup + '/**/*' ] );
+  return del( [ outputPaths.markup + '/**/*',
+                outputPaths.distmarkup + '/**/*' ] );
 } )
 
 /**
@@ -123,8 +131,9 @@ gulp.task('default', ['watch']);
 
 // publish fonts
 gulp.task('build-fonts', [ 'clean:fonts' ], function () {
-  gulp.src(inputPaths.fonts)
-    .pipe(gulp.dest(outputPaths.fonts));
+  return gulp.src(inputPaths.fonts)
+    .pipe(gulp.dest(outputPaths.fonts))
+    .pipe(gulp.dest(outputPaths.distfonts));
 });
 
 /**
@@ -145,13 +154,15 @@ gulp.task('build-images', [ 'clean:images' ], function () {
       gifsicle: true,
       svgo: true
     }))
+    .pipe(gulp.dest(outputPaths.distimg))
     .pipe(gulp.dest(outputPaths.images));
 });
 
 // publish html
 gulp.task('build-html', [ 'clean:markup' ], function () {
-  gulp.src(inputPaths.markup)
-    .pipe(gulp.dest(outputPaths.markup));
+  return gulp.src(inputPaths.markup)
+    .pipe(gulp.dest(outputPaths.markup))
+    .pipe(browserSync.stream());
 });
 
 /**
@@ -192,6 +203,7 @@ gulp.task( 'postcss', [ 'clean:styles' ], function () {
   .pipe( sourcemaps.write() )
 
   // Create styles.css.
+  .pipe( gulp.dest( outputPaths.distcss) )
   .pipe( gulp.dest( outputPaths.css) )
   .pipe( browserSync.stream() );
 } );
@@ -208,6 +220,7 @@ gulp.task( 'build-css', [ 'postcss' ], function () {
     'safe': true // Use safe optimizations
   } ) )
   .pipe( rename( 'style.min.css' ) )
+  .pipe( gulp.dest( outputPaths.distcss ) )
   .pipe( gulp.dest( outputPaths.css ) )
   .pipe( browserSync.stream() );
 } );
@@ -230,7 +243,7 @@ gulp.task('sassdoc', function () {
  * https://www.npmjs.com/package/sass-lint
  */
 gulp.task( 'sass:lint', function () {
-  gulp.src( [
+  return gulp.src( [
     inputCss,
     '!src/scss/bootstrap/**',
     '!src/scss/_bootstrap*.scss',
@@ -272,6 +285,39 @@ gulp.task('build-js', [ 'clean:scripts' ], function(callback) {
       colors: true
     }));
     callback();
+  });
+});
+
+/**
+ * Compile and bundle JavaScript
+ *
+ * https://www.npmjs.com/package/webpack
+ */
+gulp.task('build-distjs', [ 'clean:scripts' ], function(callback) {
+  // modify some webpack config options
+  var myConfig = Object.create(webpackConfig);
+  myConfig.output = {
+      path: path.resolve(outputPaths.distscripts),
+      filename: "bundle.js",
+      publicPath: "dist"
+  };
+  myConfig.plugins = myConfig.plugins.concat(
+    new webpack.DefinePlugin({
+      "process.env": {
+        // This has effect on the react lib size
+        "NODE_ENV": JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  );
+
+  // run webpack
+  return webpack(myConfig, function(err, stats) {
+    if(err) throw new gutil.PluginError("webpack:build", err);
+    gutil.log("[webpack:build]", stats.toString({
+      colors: true
+    }));
   });
 });
 
@@ -351,7 +397,7 @@ gulp.task('start-server', function (cb) {
   });
 });
 
-gulp.task('publish-static', ['publish-assets'], function () {
+gulp.task('publish-static', ['build:all', ''], function () {
   return gulp.src('./src/html/pages/**/*.hbs')
     .pipe(compile({}, {
       ignorePartials: true,
@@ -363,22 +409,16 @@ gulp.task('publish-static', ['publish-assets'], function () {
     .pipe(gulp.dest(outputPaths.dist));
 });
 
-// publish assets
-gulp.task('publish-assets', [ 'build:all' ], function () {
-  gulp.src(inputPaths.assets)
-    .pipe(gulp.dest(outputPaths.assets));
-});
-
 /**
  * Create individual tasks.
  */
-gulp.task( 'server', [ 'start-server' ] );
-gulp.task( 'markup', [ 'build-html' ], browserSync.stream );
+gulp.task( 'server', [ 'start-server', 'build-distjs' ] );
+gulp.task( 'markup', [ 'build-html' ] );
 gulp.task( 'scripts', [ 'build-js' ] );
 gulp.task( 'styles', [ 'build-css' ] );
 gulp.task( 'fonts', [ 'build-fonts' ] );
 gulp.task( 'images', [ 'build-images' ] );
 gulp.task( 'lint', [ 'sass:lint', 'js:lint' ] );
-gulp.task( 'build:all', [ 'fonts', 'styles', 'scripts', 'images', 'markup'] );
+gulp.task( 'build:all', [ 'fonts', 'styles', 'scripts', 'images', 'markup'], function () { return; });
 gulp.task( 'ship', [ 'publish-static' ] );
 
