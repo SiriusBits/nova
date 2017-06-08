@@ -71,8 +71,14 @@ gulp.task( 'clean:styles', function () {
  * Delete bundle.js before we minify and optimize
  */
 gulp.task( 'clean:scripts', function () {
-  return del( [ outputPaths.scripts + '/bundle.js',
-                outputPaths.distscripts + '/bundle.js'  ] );
+  return del( [ outputPaths.scripts + '/bundle.js' ] );
+} );
+
+/**
+ * Delete bundle.js before we minify and optimize
+ */
+gulp.task( 'clean:distscripts', function () {
+  return del( [ outputPaths.distscripts + '/bundle.js'  ] );
 } );
 
 /**
@@ -293,7 +299,7 @@ gulp.task('build-js', [ 'clean:scripts' ], function(callback) {
  *
  * https://www.npmjs.com/package/webpack
  */
-gulp.task('build-distjs', [ 'clean:scripts' ], function(callback) {
+gulp.task('build-distjs', [ 'clean:distscripts' ], function(callback) {
   // modify some webpack config options
   var myConfig = Object.create(webpackConfig);
   myConfig.output = {
@@ -313,11 +319,12 @@ gulp.task('build-distjs', [ 'clean:scripts' ], function(callback) {
   );
 
   // run webpack
-  return webpack(myConfig, function(err, stats) {
+  webpack(myConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack:build", err);
     gutil.log("[webpack:build]", stats.toString({
       colors: true
     }));
+    callback();
   });
 });
 
