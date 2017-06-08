@@ -397,7 +397,7 @@ gulp.task('start-server', function (cb) {
   });
 });
 
-gulp.task('publish-static', ['build:all', ''], function () {
+gulp.task('publish-static', ['build:all', 'build-distjs'], function () {
   return gulp.src('./src/html/pages/**/*.hbs')
     .pipe(compile({}, {
       ignorePartials: true,
@@ -412,7 +412,7 @@ gulp.task('publish-static', ['build:all', ''], function () {
 /**
  * Create individual tasks.
  */
-gulp.task( 'server', [ 'start-server', 'build-distjs' ] );
+gulp.task( 'server', [ 'start-server' ] );
 gulp.task( 'markup', [ 'build-html' ] );
 gulp.task( 'scripts', [ 'build-js' ] );
 gulp.task( 'styles', [ 'build-css' ] );
