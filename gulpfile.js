@@ -10,6 +10,7 @@ const gulp          = require( 'gulp' );
 const gutil         = require( 'gulp-util' );
 const image         = require( 'gulp-image');
 const mqpacker      = require( 'css-mqpacker' );
+const newer         = require( 'gulp-newer' );
 const neat          = require( 'bourbon-neat' ).includePaths;
 const nodemon       = require( 'gulp-nodemon' );
 const notify        = require( 'gulp-notify' );
@@ -138,7 +139,9 @@ gulp.task('default', ['watch']);
 // publish fonts
 gulp.task('build-fonts', [ 'clean:fonts' ], function () {
   return gulp.src(inputPaths.fonts)
+    .pipe(newer(outputPaths.fonts))
     .pipe(gulp.dest(outputPaths.fonts))
+    .pipe(newer(outputPaths.distfonts))
     .pipe(gulp.dest(outputPaths.distfonts));
 });
 
@@ -149,6 +152,8 @@ gulp.task('build-fonts', [ 'clean:fonts' ], function () {
  */
 gulp.task('build-images', [ 'clean:images' ], function () {
   return gulp.src(inputPaths.images)
+  .pipe(newer(outputPaths.distimg))
+  .pipe(newer(outputPaths.images))
     .pipe(image({
       pngquant: true,
       optipng: false,
@@ -167,6 +172,7 @@ gulp.task('build-images', [ 'clean:images' ], function () {
 // publish html
 gulp.task('build-html', [ 'clean:markup' ], function () {
   return gulp.src(inputPaths.markup)
+    .pipe(newer(outputPaths.markup))
     .pipe(gulp.dest(outputPaths.markup))
     .pipe(browserSync.stream());
 });
@@ -181,7 +187,8 @@ gulp.task('build-html', [ 'clean:markup' ], function () {
  */
 gulp.task( 'postcss', [ 'clean:styles' ], function () {
   return gulp.src( inputPaths.sass )
-
+  .pipe(newer(outputPaths.css))
+  .pipe(newer(outputPaths.distcss))
   // Deal with errors.
   .pipe( plumber( {'errorHandler': handleErrors} ) )
 
@@ -221,6 +228,8 @@ gulp.task( 'postcss', [ 'clean:styles' ], function () {
  */
 gulp.task( 'build-css', [ 'postcss' ], function () {
   return gulp.src( outputPaths.css + 'styles.css' )
+  .pipe(newer(outputPaths.distcss))
+  .pipe(newer(outputPaths.css))
   .pipe( plumber( {'errorHandler': handleErrors} ) )
   .pipe( cssnano( {
     'safe': true // Use safe optimizations
@@ -250,7 +259,7 @@ gulp.task('sassdoc', function () {
  */
 gulp.task( 'sass:lint', function () {
   return gulp.src( [
-    inputCss,
+    inputPaths.sass,
     '!src/scss/bootstrap/**',
     '!src/scss/_bootstrap*.scss',
     '!node_modules/**'
@@ -335,7 +344,7 @@ gulp.task('build-distjs', [ 'clean:distscripts' ], function(callback) {
  */
 gulp.task( 'js:lint', function () {
   return gulp.src( [
-    inputJs,
+    inputPaths.scripts,
     '!src/javascript/bootstrap*.js',
     '!src/javascript/bootstrap/*.js',
     '!src/javascript/vendor/*.js',
@@ -406,6 +415,7 @@ gulp.task('start-server', function (cb) {
 
 gulp.task('publish-static', ['build:all', 'build-distjs'], function () {
   return gulp.src('./src/html/pages/**/*.hbs')
+    .pipe(newer(outputPaths.dist))
     .pipe(compile({}, {
       ignorePartials: true,
       batch: ['./src/html/partials']
