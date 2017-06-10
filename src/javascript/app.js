@@ -1,5 +1,9 @@
-// Fallbacks 
+// Requires
+//require('./map'); 
+// Import Liraries
+require('./map'); 
 
+// Fallbacks
 (function($) {
     var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
     if ($span.css('fontFamily') !== 'FontAwesome' ) {
@@ -293,7 +297,6 @@ FreshUrl = (function() {
     }
     return _results;
   };
-
   return FreshUrl;
 })();
 

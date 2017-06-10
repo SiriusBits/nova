@@ -5,7 +5,7 @@
 // Import Bootstrap for Sass
 @import 'bootstrap';
 
-// Hyland custom Styles
+// Custom Styles
 
 
 // Custom Fonts
@@ -19,8 +19,156 @@
   url('../fonts/Calibri.svg#titillium_webregular') format('svg');
 }
 
-.push {
-  margin-top: 70px;
+.full {
+    //background: url('/assets/nova/images/craft-can-wall.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  left: 100;
+  right: 10;
+  z-index: -1;
+  
+  display: block;
+  background-image: url('/assets/nova/images/craft-can-wall.jpg');
+  width: 1400px;
+  height: 800px;
+  
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}
+
+.navbar {
+  border-radius: 0px!important;
+}
+
+ul.navbar-nav {
+    float: right;
+}
+
+.navbar-brand > img {
+    border: 2px solid #8a8484;
+}
+
+.well h1{
+  margin-top: 3px;
+}
+
+.body-content{
+    background-color: rgba(255,255,255, 0.8);
+    padding-top: 20px;
+}
+
+.zipSearch{
+  display: none;
+}
+
+.map-container {
+	height: 640px;
+}
+
+/* tablets and desktop */
+@media only screen and (min-width: 361px) {
+  
+  p {
+    margin-bottom: 15px;
+    line-height: 20px;
+  }
+
+  #map-canvas{
+    height: 100%;
+  }
+
+  #control input[type=text]{
+    width: 100%;
+    height: 40px;
+    font-size: 1.6em;
+    border: 1px solid #CCC;
+    padding-left: 20px;
+  }
+  
+  .learnButton {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    line-height: 37px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.7em;
+  }
+  
+}
+
+/* phones */
+@media only screen and (max-width: 360px) {
+    
+  p {
+    margin-bottom: 10px;
+    line-height: 26px;
+  }
+  
+  #map-canvas{
+    height: 100%;
+  }
+  
+  #control{
+    color: #D8D8DD;
+    padding: 20px 30px 10px 30px;
+  }
+
+  #control input[type=text]{
+     width: 100%;
+    height: 40px;
+    font-size: 1.6em;
+    border: 1px solid #CCC;
+    padding-left: 20px;
+  }
+  
+  .learnButton {
+    float: left;
+    margin: 0px 10px 0px 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 37px;
+    width: 40%;
+    text-align: center;
+    font-size: 1.7em;
+  }
+}
+
+.navbar-fixed-top .nav {
+    padding: 15px 0;
+}
+
+.navbar-fixed-top .navbar-brand {
+    padding: 0 15px;
+}
+
+footer {
+    padding: 30px 0;
+    margin-right: -30px;
+    padding-left: 15px;
+    margin-bottom: 0 !important;
+    background-color: rgba(255,255,255, 0.8);
+    font-size: 1.5em;
+    line-height: 1.8;
+}
+
+footer p
+{
+  padding-bottom: 0;
+}
+
+@media(min-width:768px) {
+
+    .navbar-brand {
+        padding: 10px 0;
+    }
 }
 
 

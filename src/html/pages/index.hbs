@@ -2,8 +2,47 @@
   {{#*inline "body-block"}}
     <!-- Page Content -->
     <div class="container">
-      <h1>Ohai World!</h1>
-      <p>I can haz templait?</p>
-    </div>
-    {{/inline}}
-    {{/layouts/main}}
+
+        <!-- Call to Action Well -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well text-center">
+                    <h1>Welcome to Find Craft! &nbsp; &nbsp;<i class="fa fa-beer" aria-hidden="true"></i></h1>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Content Row -->
+        <div class="row body-content">
+            <div class="col-md-4">
+                <div id="control">
+		<h2>Find Craft Beer Near You</h2>
+		<p>We'll help you locate the closest craft breweries and bier markets. Simply choose an option below to begin...</p>
+		<form method="get" id="chooseZip">
+			<button type="submit" class="learnButton btn btn-warning btn-lg">Use current location</button>
+			<button type="button" id="searchZip" class="learnButton btn btn-warning btn-lg">Search by Zip Code</button>
+			<div class="clear"></div>
+			<div class="zipSearch">
+				<input id="textZip" type="text" name="zip" placeholder="enter your zip code" autofocus>
+				<a href="#" id="aZipCode" class="learnButton btn btn-default">
+				Find Now
+				</a>
+			</div>
+			<div class="clear"></div>
+		</form>
+		<div class="clear"></div>
+		<div id="results"></div>
+	</div>
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-8 map-container">
+                <!-- an empty div for the map -->
+				<div id="map-canvas"></div>
+            </div>
+            <!-- /.col-md-4 -->
+        </div>
+<!-- /.row -->
+  {{/inline}}
+{{/layouts/main}}
