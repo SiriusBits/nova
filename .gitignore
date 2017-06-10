@@ -20,3 +20,5 @@ node_modules
 /dist
 
 #Local Ignores
+/public
+/dist
