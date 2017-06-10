@@ -3,6 +3,7 @@ const autoprefixer  = require( 'autoprefixer' );
 const bourbon       = require( 'bourbon' ).includePaths;
 const browserSync   = require( 'browser-sync' );
 const cssnano       = require( 'gulp-cssnano' );
+const compile       = require( 'gulp-compile-handlebars' );
 const del           = require( 'del' );
 const eslint        = require( 'gulp-eslint' );
 const gulp          = require( 'gulp' );
@@ -10,6 +11,7 @@ const gutil         = require( 'gulp-util' );
 const image         = require('gulp-image');
 const mqpacker      = require( 'css-mqpacker' );
 const neat          = require( 'bourbon-neat' ).includePaths;
+const nodemon       = require( 'gulp-nodemon' );
 const notify        = require( 'gulp-notify' );
 const path          = require("path");
 const plumber       = require( 'gulp-plumber' );
@@ -121,7 +123,7 @@ gulp.task('build-fonts', [ 'clean:fonts' ], function () {
 });
 
 /**
- * Optimize images for Web use. 
+ * Optimize images for Web use.
  *
  * https://www.npmjs.com/package/gulp-image
  */

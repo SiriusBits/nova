@@ -1,9 +1,9 @@
-gulp-compile-handlebars
-gulp-nodemon
 express
 morgan
 body-parser
 express-handlebars
+gulp-compile-handlebars
+gulp-nodemon
 
 const nodemon       = require( 'gulp-nodemon' );
 const compile       = require( 'gulp-compile-handlebars' );
