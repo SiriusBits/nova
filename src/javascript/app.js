@@ -1,4 +1,4 @@
-// Fallbacks
+// Fallbacks 
 
 (function($){
     var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');

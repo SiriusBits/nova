@@ -28,7 +28,7 @@ const webpackConfig = require("./webpack.config.js");
 
 
 // Set assets paths.
-const sitename = 'onbase';
+const sitename = 'nova';
 
 const inputPaths = {
   'fonts'   : './src/fonts/**',

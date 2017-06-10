@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom CSS -->
-    <link href="/assets/onbase/stylesheets/styles.css" rel="stylesheet">
+    <link href="/assets/nova/stylesheets/styles.css" rel="stylesheet">
 
     <!-- Styles for Prototype ONLY -->
-    <link href="/assets/onbase/stylesheets/poc-only.css" rel="stylesheet">
+    <link href="/assets/nova/stylesheets/poc-only.css" rel="stylesheet">
     
     <!-- Custom Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300italic,400italic,600' rel='stylesheet' type='text/css'>

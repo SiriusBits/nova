@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>[page title]]</title>
+    <title>[page title]</title>
     <?php include($_SERVER["DOCUMENT_ROOT"] . '/includes/head-and-meta.php') ?>
 </head>
  
