@@ -35,7 +35,7 @@ const inputPaths = {
   'images'  : './src/images/**',
   'markup'  : './src/html/**',
   'sass'    : './src/scss/**/*.scss',
-  'scripts' : './src/javascript/app.js'
+  'scripts' : './src/javascript/**/*.js'
 };
 
 const outputPaths = {
@@ -224,7 +224,7 @@ gulp.task('sassdoc', function () {
  */
 gulp.task( 'sass:lint', function () {
   gulp.src( [
-    inputCss,
+    inputPaths.sass,
     '!src/scss/bootstrap/**',
     '!src/scss/_bootstrap*.scss',
     '!node_modules/**'
@@ -275,7 +275,7 @@ gulp.task('build-js', [ 'clean:scripts' ], function(callback) {
  */
 gulp.task( 'js:lint', function () {
   return gulp.src( [
-    inputJs,
+    inputPaths.scripts,
     '!src/javascript/bootstrap*.js',
     '!src/javascript/bootstrap/*.js',
     '!src/javascript/vendor/*.js',

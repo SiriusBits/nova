@@ -1,6 +1,6 @@
 // Fallbacks 
 
-(function($){
+(function($) {
     var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
     if ($span.css('fontFamily') !== 'FontAwesome' ) {
         $('head').append('<link href="~/assets/shared/css/vendor/font-awesome-4.7.0.min.css" rel="stylesheet">');
@@ -24,7 +24,8 @@ FreshUrl = (function() {
             return ga.push(function() {
               return ready();
             });
-          } else if (ga = window[window.GoogleAnalyticsObject]) {
+          } 
+          else if (ga = window[window.GoogleAnalyticsObject]) {
             return ga(function() {
               return ready();
             });
@@ -107,13 +108,15 @@ FreshUrl = (function() {
     this._isReady = {};
     for (_i = 0, _len = waitList.length; _i < _len; _i++) {
       item = waitList[_i];
-      if (typeof item === "string" && FreshUrl.libraries[item]) {
+      if (typeof item === 'string' && FreshUrl.libraries[item]) {
         this.wait(FreshUrl.libraries[item].ready, item);
-      } else if (typeof item === "function") {
+      } 
+      else if (typeof item === 'function') {
         this.wait(item);
-      } else {
-        if (typeof console !== "undefined" && console !== null) {
-          console.log("FreshURL: Don't know how to wait for " + item);
+      } 
+      else {
+        if (typeof console !== 'undefined' && console !== null) {
+          console.log('FreshURL: Do not know how to wait for ' + item);
         }
       }
     }
@@ -128,7 +131,7 @@ FreshUrl = (function() {
         return FreshUrl.updateWistiaIframes();
       }
     };
-    if (typeof window !== "undefined" && window !== null) {
+    if (typeof window !== 'undefined' && window !== null) {
       window.addEventListener('message', iframeListener, false);
     }
   }
@@ -191,7 +194,8 @@ FreshUrl = (function() {
       }
       if (cond()) {
         return callback();
-      } else {
+      } 
+      else {
         clearTimeout(pollTimeout);
         return pollTimeout = setTimeout(pollFn, interval);
       }
@@ -282,7 +286,8 @@ FreshUrl = (function() {
       iframe = _ref[_i];
       try {
         _results.push(iframe.contentWindow.postMessage(message, '*'));
-      } catch (_error) {
+      } 
+      catch (_error) {
         e = _error;
       }
     }
@@ -290,15 +295,16 @@ FreshUrl = (function() {
   };
 
   return FreshUrl;
-
 })();
 
-if (typeof _freshenUrlAfter !== "undefined" && _freshenUrlAfter !== null) {
+if (typeof _freshenUrlAfter !== 'undefined' && _freshenUrlAfter !== null) {
   window.freshUrl = new FreshUrl(_freshenUrlAfter);
-} else if (window.dataLayer) {
+} 
+else if (window.dataLayer) {
   dataLayer.push(function() {
     return window.freshUrl = new FreshUrl(FreshUrl.librariesPresent());
   });
-} else {
+} 
+else {
   window.freshUrl = new FreshUrl(FreshUrl.librariesPresent());
 }
