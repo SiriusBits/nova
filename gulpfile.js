@@ -295,14 +295,14 @@ gulp.task( 'js:lint', function () {
  *
  * https://www.npmjs.com/package/browser-sync
  */
-gulp.task( 'watch', function () {
+gulp.task( 'watch', ['server'], function () {
   // Kick off BrowserSync.
   browserSync( {
     'open': false,             // Open project in a new tab?
     'injectChanges': true,     // Auto inject changes instead of full reload
-    'proxy': sitename + '.dev',    // Use http://_s.com:3000 to use BrowserSync
+    'proxy': 'localhost:3030',    // Use http://_s.com:3000 to use BrowserSync
     'watchOptions': {
-      'debounceDelay': 1000  // Wait 1 second before injecting
+      'debounceDelay': 1500  // Wait 1 second before injecting
     }
   } );
 
@@ -311,12 +311,46 @@ gulp.task( 'watch', function () {
   gulp.watch( inputPaths.sass, [ 'styles' ] );
   gulp.watch( inputPaths.scripts, [ 'scripts' ] );
   gulp.watch( inputPaths.images, [ 'images' ] );
-  gulp.watch( inputPaths.markup, [ 'markup' ] );
+  gulp.watch( inputPaths.markup, [ 'build-html' ] );
 } );
+
+/**
+ * Starts up an express server with nodemon.
+ *
+ * https://www.npmjs.com/package/express
+ * https://www.npmjs.com/package/gulp-nodemon
+ *
+ */
+gulp.task('start-server', function (cb) {
+  var called = false;
+  return nodemon({
+    script: 'bin/www',
+    ignore: [
+      'gulpfile.js',
+      'webpack.config.js',
+      'src/',
+      'dist/',
+      'public/',
+      'node_modules/'
+    ]
+  })
+  .on('start', function () {
+    if (!called) {
+      called = true;
+      cb();
+    }
+  })
+  .on('restart', function () {
+    setTimeout(function () {
+      reload({ stream: false });
+    }, 1000);
+  });
+});
 
 /**
  * Create individual tasks.
  */
+gulp.task( 'server', [ 'start-server' ] );
 gulp.task( 'markup', [ 'build-html' ], browserSync.reload );
 gulp.task( 'scripts', [ 'build-js' ] );
 gulp.task( 'styles', [ 'build-css' ] );
