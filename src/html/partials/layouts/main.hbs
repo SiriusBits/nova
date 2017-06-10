@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>
+    	{{#if title}}
+        	{{title}}
+    	{{else}}
+        	Base Page Title
+		{{/if}}
+	</title>
+    {{#> includes/head-and-meta}}
+      {{!-- Custom <head> content per page could be added. --}}
+	{{/includes/head-and-meta}}
+</head>
+<body class="full">
+    <!--[if lt IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+	{{#> includes/header}}
+      {{!-- Customize the header content per page. --}}
+	{{/includes/header}}
+	<!-- Page Content -->
+    <div class="container main">
+    	{{#> body-block}}
+            {{!-- Body content goes here. --}}
+            <p>This is the default body block content.</p>
+        {{/body-block}}
+    </div>
+    {{#> includes/footer}}
+      {{!-- Customize the footer content per page. --}}
+	{{/includes/footer}}
+</body>
+</html>
