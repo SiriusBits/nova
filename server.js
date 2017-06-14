@@ -2,7 +2,6 @@ var express = require('express');
 var request = require('request')
 var path = require('path');
 var logger = require('morgan');
-var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var routes = require('./public/routes/index');
