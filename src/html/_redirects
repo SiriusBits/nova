@@ -1,0 +1,5 @@
+# Redirects from what the browser requests to what we serve
+/home   /   301
+#/brewery/search id=:id  /blog/:id
+
+/brewery/search*  https://api.brewerydb.com/v2/search/geo/point:splat  200
