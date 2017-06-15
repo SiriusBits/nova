@@ -1,7 +1,7 @@
 var express = require('express');
+var request = require('request')
 var path = require('path');
 var logger = require('morgan');
-var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var routes = require('./public/routes/index');
@@ -10,13 +10,12 @@ var app = express();
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
     defaultLayout: 'index',
-	extname: '.hbs',
-	layoutsDir: __dirname + '/public/pages',
+	  extname: '.hbs',
+	  layoutsDir: __dirname + '/public/pages',
     partialsDir: [
         __dirname + '/public/partials'
     ]
 });
-
 
 /// view engine setup
 app.engine('hbs', hbs.engine);
@@ -36,7 +35,7 @@ app.use('/', routes);
 // catch 404 or forward to error handler
 app.use(function(err, req, res, next) {
   if (typeof err[path] == 'undefined') {
-        res.render('404', {title: 'Nova - Page Not Found', 
+        res.render('404', {title: 'Nova - Page Not Found',
 	layout: '404'});
     } else {
         next(err);
