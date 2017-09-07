@@ -103,7 +103,7 @@ gulp.task( 'clean:fonts', function () {
  */
 gulp.task( 'clean:images', function () {
   return del( [ outputPaths.images + '/**/*',
-                outputPaths.distimages + '/**/*' ] );
+                outputPaths.distimg + '/**/*' ] );
 } );
 
 /**
