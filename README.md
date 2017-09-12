@@ -1,4 +1,4 @@
-[![Travis branch](https://img.shields.io/travis/SiriusBits/nova/develop.svg?style=flat-square)]()
+[![Travis branch](https://img.shields.io/travis/SiriusBits/nova/develop.svg?style=flat-square)](https://travis-ci.org/SiriusBits/nova.svg?branch=develop)
 [![Beerpay](https://img.shields.io/beerpay/hashdog/scrapfy-chrome-extension.svg?style=flat-square)]()
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)]()
 # nova
