@@ -4,7 +4,7 @@
   "description": "A front end website prototype project using Gulp and WebPack",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "gulp"
+    "test": "gulp publish-static"
   },
   "repository": {
     "type": "git",
