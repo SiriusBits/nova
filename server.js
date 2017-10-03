@@ -66,7 +66,7 @@ app.use('/', routes);
 // catch 404 or forward to error handler
 app.use(function(err, req, res, next) {
   if (typeof err[path] == 'undefined') {
-        res.render('404', {title: 'Nova - Page Not Found', 
+        res.render('404', {title: 'FindCraft - Page Not Found', 
 	layout: '404'});
     } else {
         next(err);

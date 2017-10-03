@@ -48,7 +48,7 @@ const outputPaths = {
   'scripts' : './public/assets/' + sitename + '/javascript',
   'dist'        : './dist',
   'distfonts'   : './dist/assets/' + sitename + '/fonts',
-  'distimg'     : './dist/assets/' + sitename + '/images',
+  'distimages'     : './dist/assets/' + sitename + '/images',
   'distcss'     : './dist/assets/' + sitename + '/stylesheets',
   'distscripts' : './dist/assets/' + sitename + '/javascript',
 };
