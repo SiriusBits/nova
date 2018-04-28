@@ -6,7 +6,6 @@ module.exports = {
   entry: {
     app: './src/javascript/app.js',
   },
-  mode: 'development',
   output: {},
   module: {
   },
