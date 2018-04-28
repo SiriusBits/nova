@@ -15,7 +15,10 @@ node_modules
 .sass-cache
 .tmp
 
-#Public
-proto/public
+#Public and Dist
+/public
+/dist
 
 #Local Ignores
+/public
+/dist
