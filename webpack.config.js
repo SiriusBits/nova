@@ -4,11 +4,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './src/javascript/app',
+    app: './src/javascript/app.js',
   },
+  mode: 'development',
   output: {},
   module: {
-    loaders: [],
   },
   resolve: {
     extensions: ['.ts', '.js', '.json', '.css', '.html'],

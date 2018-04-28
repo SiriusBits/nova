@@ -279,8 +279,12 @@ gulp.task('build-js', [ 'clean:scripts' ], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.output = {
       path: path.resolve(outputPaths.scripts),
-      filename: "bundle.js",
-      publicPath: "public"
+      filename: 'bundle.js',
+      publicPath: 'public'
+  };
+  myConfig.mode= 'development';
+  myConfig.entry = {
+    app: './src/javascript/app.js',
   };
   myConfig.plugins = myConfig.plugins.concat(
     new webpack.DefinePlugin({
@@ -288,9 +292,7 @@ gulp.task('build-js', [ 'clean:scripts' ], function(callback) {
         // This has effect on the react lib size
         "NODE_ENV": JSON.stringify("production")
       }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    })
   );
 
   // run webpack
@@ -386,7 +388,7 @@ gulp.task( 'watch', ['server'], function () {
  *
  * https://www.npmjs.com/package/express
  * https://www.npmjs.com/package/gulp-nodemon
- * 
+ *
  */
 gulp.task('start-server', function (cb) {
   var called = false;
