@@ -318,15 +318,17 @@ gulp.task('build-distjs', [ 'clean:distscripts' ], function(callback) {
       filename: "bundle.js",
       publicPath: "dist"
   };
+  myConfig.mode= 'production';
+  myConfig.entry = {
+    app: './src/javascript/app.js',
+  };
   myConfig.plugins = myConfig.plugins.concat(
     new webpack.DefinePlugin({
       "process.env": {
         // This has effect on the react lib size
         "NODE_ENV": JSON.stringify("production")
       }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    })
   );
 
   // run webpack
