@@ -18,17 +18,26 @@
   ],
   "author": "Benjamin Bykowski",
   "license": "ISC",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "IE 10"
+  ],
+  "peerDependencies": {
+    "eslint": ">=3.19.0",
+    "eslint-plugin-react": ">=6.10.3"
+  },
   "dependencies": {
-    "ajv": "^6.4.0",
-    "babel-eslint": "^8.2.3",
+    "ajv": "^6.5.2",
+    "babel-eslint": "^8.2.6",
     "beeper": "^1.1.1",
-    "body-parser": "^1.18.2",
-    "browser-sync": "^2.23.7",
-    "copy-webpack-plugin": "^4.5.1",
+    "body-parser": "^1.18.3",
+    "browser-sync": "^2.24.5",
+    "copy-webpack-plugin": "^4.5.2",
     "css-mqpacker": "^6.0.2",
     "debug": "^3.1.0",
     "del": "^3.0.0",
-    "eslint": "^5.1.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",
@@ -54,9 +63,9 @@
     "lodash": "^4.17.10",
     "morgan": "^1.9.0",
     "postcss-preset-env": "^5.2.1",
-    "prettier": "^1.12.1",
+    "prettier": "^1.13.7",
     "serve-favicon": "^2.5.0",
-    "webpack": "^4.6.0"
+    "webpack": "^4.16.0"
   },
   "devDependencies": {}
 }
