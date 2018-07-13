@@ -5,6 +5,7 @@ const cssnano = require('gulp-cssnano');
 const compile = require('gulp-compile-handlebars');
 const del = require('del');
 const gulp = require('gulp');
+const gulpSequence = require('gulp-sequence');
 const image = require('gulp-image');
 const log = require('fancy-log');
 const mqpacker = require('css-mqpacker');
@@ -86,7 +87,7 @@ gulp.task('clean:markup', () =>
 /**
  * Delete all font files created by the build-fonts task
  */
-gulp.task('clean:fonts', () => del([outputPaths.fonts + '/**/*]));
+gulp.task('clean:fonts', () => del([outputPaths.fonts + '/**/*']));
 
 /**
  * Delete all image files created by the build-images task
@@ -96,7 +97,7 @@ gulp.task('clean:images', () => del([outputPaths.images + '/**/*']));
 /**
  * Delete the public site - full cleanse
  */
-gulp.task('clean:all', () => del([outputPaths.markup + '/**/*']));
+gulp.task('clean-all', () => del([outputPaths.markup + '/**/*']));
 
 /**
  * Handle errors and alert the user.
@@ -327,28 +328,25 @@ gulp.task('start-server', cb => {
 
 // Publish the markup for compilation.
 // Then set the assets to deploy to production.
-gulp.task(
-  'publish-static',
-  ['build-html', 'set-production', 'clean:ship', 'build:assets'],
-  () =>
-    gulp
-      .src('./src/html/pages/**/*.hbs')
-      .pipe(newer(outputPaths.markup))
-      .pipe(
-        compile(
-          {},
-          {
-            ignorePartials: true,
-            batch: ['./src/html/partials']
-          }
-        )
+gulp.task('publish-static', () =>
+  gulp
+    .src('./src/html/pages/**/*.hbs')
+    .pipe(newer(outputPaths.markup))
+    .pipe(
+      compile(
+        {},
+        {
+          ignorePartials: true,
+          batch: ['./src/html/partials']
+        }
       )
-      .pipe(
-        rename({
-          extname: '.html'
-        })
-      )
-      .pipe(gulp.dest(outputPaths.markup))
+    )
+    .pipe(
+      rename({
+        extname: '.html'
+      })
+    )
+    .pipe(gulp.dest(outputPaths.markup))
 );
 
 /**
@@ -371,10 +369,19 @@ gulp.task(
   ],
   () => {}
 );
-gulp.task('build:assets', ['fonts', 'styles', 'scripts', 'images'], () => {});
+gulp.task('build-assets', ['fonts', 'styles', 'scripts', 'images'], () => {});
 gulp.task(
-  'build:all',
+  'build-all',
   ['fonts', 'styles', 'scripts', 'images', 'markup'],
   () => {}
 );
-gulp.task('ship', ['publish-static']);
+gulp.task(
+  'ship',
+  gulpSequence(
+    'build-html',
+    'set-production',
+    'clean:ship',
+    'build-assets',
+    'publish-static'
+  )
+);
