@@ -15,12 +15,10 @@ const path = require('path');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
 const postcssPresetEnv = require('postcss-preset-env');
-
 const reload = browserSync.reload;
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-
 const stream = browserSync.stream;
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
@@ -47,6 +45,7 @@ let outputPaths = {
   scripts: `./${outputBase}/assets/${sitename}/javascript`
 };
 
+// Set production output variables
 gulp.task('set-production', callback => {
   outputBase = 'dist';
   processEnv = 'production';
@@ -65,39 +64,39 @@ gulp.task('set-production', callback => {
  * Delete style.css and style.min.css before we minify and optimize
  */
 gulp.task('clean:styles', () =>
-  del([`${outputPaths.css}/style.css`, `${outputPaths.css}/style.min.css`])
+  del([outputPaths.css + '/style.css', outputPaths.css + '/style.min.css'])
 );
 
 /**
  * Delete bundle.js before we minify and optimize
  */
-gulp.task('clean:scripts', () => del([`${outputPaths.scripts}/bundle.js`]));
+gulp.task('clean:scripts', () => del([outputPaths.scripts + '/bundle.js']));
 
 /**
  * Delete all markup files created by the build-html task
  */
 gulp.task('clean:markup', () =>
   del([
-    `${outputPaths.markup}/**/*`,
-    `!./${outputPaths.markup}/assets`,
-    `!./${outputPaths.markup}/assets/**/*`
+    outputPaths.markup + '/**/*',
+    '!./' + outputPaths.markup + '/assets',
+    '!./' + outputPaths.markup + '/assets/**/*'
   ])
 );
 
 /**
  * Delete all font files created by the build-fonts task
  */
-gulp.task('clean:fonts', () => del([`${outputPaths.fonts}/**/*`]));
+gulp.task('clean:fonts', () => del([outputPaths.fonts + '/**/*]));
 
 /**
  * Delete all image files created by the build-images task
  */
-gulp.task('clean:images', () => del([`${outputPaths.images}/**/*`]));
+gulp.task('clean:images', () => del([outputPaths.images + '/**/*']));
 
 /**
  * Delete the public site - full cleanse
  */
-gulp.task('clean:all', () => del([`${outputPaths.markup}/**/*`]));
+gulp.task('clean:all', () => del([outputPaths.markup + '/**/*']));
 
 /**
  * Handle errors and alert the user.
@@ -123,7 +122,7 @@ function handleErrors() {
 gulp.task('default', ['watch']);
 
 // publish fonts
-gulp.task('build-fonts', ['clean:fonts'], () =>
+gulp.task('build-fonts', () =>
   gulp
     .src(inputPaths.fonts)
     .pipe(newer(outputPaths.fonts))
@@ -326,9 +325,11 @@ gulp.task('start-server', cb => {
     });
 });
 
+// Publish the markup for compilation.
+// Then set the assets to deploy to production.
 gulp.task(
   'publish-static',
-  ['build-html', 'set-production', 'build:assets'],
+  ['build-html', 'set-production', 'clean:ship', 'build:assets'],
   () =>
     gulp
       .src('./src/html/pages/**/*.hbs')
@@ -359,21 +360,21 @@ gulp.task('scripts', ['build-js']);
 gulp.task('styles', ['build-css']);
 gulp.task('fonts', ['build-fonts']);
 gulp.task('images', ['build-images']);
+gulp.task(
+  'clean:ship',
+  [
+    'clean:fonts',
+    'clean:styles',
+    'clean:scripts',
+    'clean:images',
+    'clean:markup'
+  ],
+  () => {}
+);
 gulp.task('build:assets', ['fonts', 'styles', 'scripts', 'images'], () => {});
 gulp.task(
   'build:all',
   ['fonts', 'styles', 'scripts', 'images', 'markup'],
-  () => {}
-);
-gulp.task(
-  'clean:all',
-  [
-    'clean-fonts',
-    'clean-styles',
-    'clean-scripts',
-    'clean-images',
-    'clean-markup'
-  ],
   () => {}
 );
 gulp.task('ship', ['publish-static']);
