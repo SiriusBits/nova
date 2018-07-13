@@ -3,18 +3,18 @@
 
 <head>
     <title>[page title]</title>
-    <?php include($_SERVER["DOCUMENT_ROOT"] . '/includes/head-and-meta.php') ?>
+    <?php include('/Users/bbykowski/Documents/Development/sites/nova/public/includes/head-and-meta.php') ?>
 </head>
- 
+
 <body>
-    <?php include($_SERVER["DOCUMENT_ROOT"] . '/includes/header.php') ?>
+    <?php include('/Users/bbykowski/Documents/Development/sites/nova/public/includes/header.php') ?>
      <!-- Page Content -->
     <div class="container main">
     	<h1>Ohai World!</h1>
     	<p>I can haz templait?</p>
     </div>
-        
-    <?php include($_SERVER["DOCUMENT_ROOT"] . '/includes/footer.php') ?>
+
+    <?php include('/Users/bbykowski/Documents/Development/sites/nova/public/includes/footer.php') ?>
 </body>
 
 </html>
