@@ -99,19 +99,20 @@ $( document ).ready((function() {
 						infowindow.open(map, this);
 					});
 
+					//  Make an array of the LatLng's of the markers you want to show
+					//  Create a new viewpoint bound
+					var bounds = new google.maps.LatLngBounds();
+					//  Go through each...
+					for (var i = 0; i < allLatlng.length; i++) {
+				  	  //  And increase the bounds to take this point
+				  	  bounds.extend(allLatlng[i]);
+					}
+					//  Fit these bounds to the map
+					map.fitBounds(bounds);
+
 				});//end .each
 
-				//  Make an array of the LatLng's of the markers you want to show
-				//  Create a new viewpoint bound
-				var bounds = new google.maps.LatLngBounds();
-				//  Go through each...
-				for (var i = 0, LtLgLen = allLatlng.length; i < LtLgLen; i++) {
-				  //  And increase the bounds to take this point
-				  bounds.extend (allLatlng[i]);
-				}
-				//  Fit these bounds to the map
-				map.fitBounds (bounds);
-		 	},
+						 	},
 		 	error: function(xhr, status, error) {
 			        console.log('Geo Error:' + error);
 			    }
@@ -201,9 +202,6 @@ $(function() {
 							infowindow.open(map, this);
 						});
 
-						});//end .each
-
-						//console.log(allLatlng);
 						//  Make an array of the LatLng's of the markers you want to show
 						//  Create a new viewpoint bound
 						var bounds = new google.maps.LatLngBounds ();
@@ -214,6 +212,8 @@ $(function() {
 						}
 						//  Fit these bounds to the map
 						map.fitBounds (bounds);
+						});//end .each
+						
 				 	},
 				 	error: function(xhr, status, error) {
 					        console.log('Nested Error: ' + error);
