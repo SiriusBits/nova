@@ -103,7 +103,7 @@ $( document ).ready((function() {
 
 				//  Make an array of the LatLng's of the markers you want to show
 				//  Create a new viewpoint bound
-				var bounds = new google.maps.LatLngBounds();
+				var bounds = new google.maps.LatLngBounds ();
 				//  Go through each...
 				for (var i = 0, LtLgLen = allLatlng.length; i < LtLgLen; i++) {
 				  //  And increase the bounds to take this point
